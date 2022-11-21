@@ -38,7 +38,7 @@ public class ChecksumValidation extends GenericUDF {
       converters[i] = ObjectInspectorConverters.getConverter(arguments[i],
           PrimitiveObjectInspectorFactory.writableStringObjectInspector);
     }
-    return PrimitiveObjectInspectorFactory.writableStringObjectInspector;
+    return PrimitiveObjectInspectorFactory.writableIntObjectInspector;
   }
 
   @Override public Object evaluate(DeferredObject[] deferredObjects) throws HiveException {
@@ -48,9 +48,7 @@ public class ChecksumValidation extends GenericUDF {
     }
     for(int i = 0; i < 8; i++){
       try {
-        String val = Text.decode(((Text) converters[i].convert(deferredObjects[i].get())).getBytes()).trim();
-
-        row[i] = val;
+        row[i] = Text.decode(((Text) converters[i].convert(deferredObjects[i].get())).getBytes()).trim();
       } catch (CharacterCodingException e) {
         e.printStackTrace();
       }
@@ -77,12 +75,7 @@ public class ChecksumValidation extends GenericUDF {
       res = res + "6";
     }
 
-    String temp = "";
-    for(int i = 0; i < 8 ; i++){
-      temp += ":" + row[i] + ":";
-    }
-
-    return new Text(temp);
+    return new IntWritable(Integer.parseInt(res));
   }
 
   public boolean checkRowID(){
