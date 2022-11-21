@@ -54,7 +54,7 @@ public class ChecksumValidation extends GenericUDF {
       }
     }
 
-    String res = "";
+    String res = "0";
 
     if(!checkRowStart()){
       res = res + "1";
@@ -62,9 +62,9 @@ public class ChecksumValidation extends GenericUDF {
     if(!checkDataCrc()){
       res = res + "2";
     }
-    if(!checkRowCheckSum()){
-      res = res + "3";
-    }
+//    if(!checkRowCheckSum()){
+//      res = res + "3";
+//    }
     if(!checkRowEnd()){
       res = res + "4";
     }
