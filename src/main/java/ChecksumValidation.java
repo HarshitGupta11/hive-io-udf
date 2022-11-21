@@ -56,11 +56,25 @@ public class ChecksumValidation extends GenericUDF {
       }
     }
 
-    if(!checkRowStart() || !checkRowID() || !checkRowCheckSum() || !checkRowEnd() || !checkDataCrc()){
-      result = 1;
+    String res = "";
+
+    if(!checkRowStart()){
+      res = res + "1";
+    }
+    if(!checkDataCrc()){
+      res = res + "2";
+    }
+    if(!checkRowCheckSum()){
+      res = res + "3";
+    }
+    if(!checkRowEnd()){
+      res = res + "4";
+    }
+    if(!checkRowEnd()){
+      res = res + "5";
     }
 
-    return new IntWritable(result);
+    return new IntWritable(Integer.parseInt(res));
   }
 
   public boolean checkRowID(){
@@ -97,24 +111,6 @@ public class ChecksumValidation extends GenericUDF {
     crc.reset();
     for(int i = 0; i < 6; i++){
       crc.update(row[i].getBytes(StandardCharsets.UTF_8));
-    }
-    try {
-      Long val = Long.parseLong(row[6]);
-    } catch(NumberFormatException e){
-      String temp = "";
-      String fs = "";
-      for(int i = 0; i < row[6].length(); i++){
-        temp = temp + row[6].charAt(i);
-        if(String.valueOf(row[6].charAt(i)).equals("")){
-          temp = temp + "@";
-        }
-        try {
-          fs = fs + Long.parseLong(String.valueOf(row[6].charAt(i)));
-        } catch (NumberFormatException ex){
-          fs = fs + "@" + i ;
-        }
-      }
-      throw new HiveException(":" + row[6] + ":" + temp + ":" + fs + ":" + row[6].length());
     }
     return crc.getValue() == Long.parseLong(row[6]);
   }
