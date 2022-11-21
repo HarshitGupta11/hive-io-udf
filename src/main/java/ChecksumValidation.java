@@ -6,6 +6,7 @@ import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorConverters;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorConverters.Converter;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorFactory;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 
 import java.nio.charset.CharacterCodingException;
@@ -59,7 +60,7 @@ public class ChecksumValidation extends GenericUDF {
       result = 1;
     }
 
-    return result;
+    return new IntWritable(result);
   }
 
   public boolean checkRowID(){
