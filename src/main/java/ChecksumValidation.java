@@ -50,7 +50,7 @@ public class ChecksumValidation extends GenericUDF {
       Text val = (Text) converters[i].convert(deferredObjects[i].get());
       try {
         row[i] = Text.decode(val.getBytes());
-        row[i] = row[i].substring(0, row[i].length() - 1);
+        row[i] = row[i].substring(0, row[i].length());
       } catch (CharacterCodingException e) {
         e.printStackTrace();
       }
@@ -72,6 +72,9 @@ public class ChecksumValidation extends GenericUDF {
     }
     if(!checkRowEnd()){
       res = res + "5";
+    }
+    if(!checkRowID()){
+      res = res + "6";
     }
 
     return new IntWritable(Integer.parseInt(res));
