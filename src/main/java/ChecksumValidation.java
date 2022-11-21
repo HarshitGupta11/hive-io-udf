@@ -47,10 +47,9 @@ public class ChecksumValidation extends GenericUDF {
       throw new HiveException("Wrong args");
     }
     for(int i = 0; i < 8; i++){
-      Text val = (Text) converters[i].convert(deferredObjects[i].get());
       try {
-        row[i] = Text.decode(val.getBytes());
-        row[i] = row[i].substring(0, row[i].length());
+        String val = Text.decode(((Text) converters[i].convert(deferredObjects[i].get())).getBytes());
+        row[i] = val.substring(0, val.length() - 1);
       } catch (CharacterCodingException e) {
         e.printStackTrace();
       }
