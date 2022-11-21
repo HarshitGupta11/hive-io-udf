@@ -49,6 +49,7 @@ public class ChecksumValidation extends GenericUDF {
       Text val = (Text) converters[i].convert(deferredObjects[i].get());
       try {
         row[i] = Text.decode(val.getBytes());
+        row[i] = row[i].substring(0, row[i].length() - 1);
       } catch (CharacterCodingException e) {
         e.printStackTrace();
       }
