@@ -99,7 +99,7 @@ public class ChecksumValidation extends GenericUDF {
     try {
       Long val = Long.parseLong(row[6]);
     } catch(NumberFormatException e){
-      throw new HiveException(row[6]);
+      throw new HiveException(":" + row[6] + ":");
     }
     return crc.getValue() == Long.parseLong(row[6]);
   }
