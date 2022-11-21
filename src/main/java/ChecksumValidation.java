@@ -6,7 +6,9 @@ import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorConverters;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorConverters.Converter;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorFactory;
+import org.apache.hadoop.io.Text;
 
+import java.nio.charset.CharacterCodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.zip.CRC32;
 
@@ -44,7 +46,12 @@ public class ChecksumValidation extends GenericUDF {
       throw new HiveException("Wrong args");
     }
     for(int i = 0; i < 8; i++){
-      row[i] = (String) converters[i].convert(deferredObjects[i].get());
+      Text val = (Text) converters[i].convert(deferredObjects[i].get());
+      try {
+        row[i] = Text.decode(val.getBytes());
+      } catch (CharacterCodingException e) {
+        e.printStackTrace();
+      }
     }
 
     if(!checkRowStart() || !checkRowID() || !checkRowCheckSum() || !checkRowEnd() || !checkDataCrc()){
