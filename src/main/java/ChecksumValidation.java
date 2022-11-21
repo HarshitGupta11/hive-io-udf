@@ -91,10 +91,15 @@ public class ChecksumValidation extends GenericUDF {
     return crc.getValue() == Long.parseLong(row[3]);
   }
 
-  public boolean checkRowCheckSum(){
+  public boolean checkRowCheckSum() throws HiveException {
     crc.reset();
     for(int i = 0; i < 6; i++){
       crc.update(row[i].getBytes(StandardCharsets.UTF_8));
+    }
+    try {
+      Long val = Long.parseLong(row[6]);
+    } catch(NumberFormatException e){
+      throw new HiveException(row[6]);
     }
     return crc.getValue() == Long.parseLong(row[6]);
   }
