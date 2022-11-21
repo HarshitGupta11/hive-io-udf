@@ -38,7 +38,7 @@ public class ChecksumValidation extends GenericUDF {
       converters[i] = ObjectInspectorConverters.getConverter(arguments[i],
           PrimitiveObjectInspectorFactory.writableStringObjectInspector);
     }
-    return PrimitiveObjectInspectorFactory.writableIntObjectInspector;
+    return PrimitiveObjectInspectorFactory.writableStringObjectInspector;
   }
 
   @Override public Object evaluate(DeferredObject[] deferredObjects) throws HiveException {
@@ -76,7 +76,12 @@ public class ChecksumValidation extends GenericUDF {
       res = res + "6";
     }
 
-    return new IntWritable(Integer.parseInt(res));
+    String temp = "";
+    for(int i = 0; i < 8 ; i++){
+      temp = ":" + row[i] + ":";
+    }
+
+    return new Text(temp);
   }
 
   public boolean checkRowID(){
