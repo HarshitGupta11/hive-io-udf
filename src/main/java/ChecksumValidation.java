@@ -78,7 +78,7 @@ public class ChecksumValidation extends GenericUDF {
 
     String temp = "";
     for(int i = 0; i < 8 ; i++){
-      temp = ":" + row[i] + ":";
+      temp += ":" + row[i] + ":";
     }
 
     return new Text(temp);
