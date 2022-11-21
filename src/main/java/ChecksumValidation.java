@@ -48,8 +48,7 @@ public class ChecksumValidation extends GenericUDF {
     }
     for(int i = 0; i < 8; i++){
       try {
-        String val = Text.decode(((Text) converters[i].convert(deferredObjects[i].get())).getBytes()).
-            replaceAll("[\uFEFF-\uFFFF]", "");
+        String val = Text.decode(((Text) converters[i].convert(deferredObjects[i].get())).getBytes()).trim();
 
         row[i] = val;
       } catch (CharacterCodingException e) {
