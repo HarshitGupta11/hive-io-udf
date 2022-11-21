@@ -106,9 +106,13 @@ public class ChecksumValidation extends GenericUDF {
         if(String.valueOf(row[6].charAt(i)).equals("")){
           temp = temp + "@";
         }
-        //fs = fs + Long.parseLong(String.valueOf(row[6].charAt(i)));
+        try {
+          fs = fs + Long.parseLong(String.valueOf(row[6].charAt(i)));
+        } catch (NumberFormatException ex){
+          fs = fs + "@" + i ;
+        }
       }
-      throw new HiveException(":" + row[6] + ":" + temp + ":" + fs);
+      throw new HiveException(":" + row[6] + ":" + temp + ":" + fs + ":" + row[6].length());
     }
     return crc.getValue() == Long.parseLong(row[6]);
   }
