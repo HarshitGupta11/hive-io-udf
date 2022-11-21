@@ -103,7 +103,10 @@ public class ChecksumValidation extends GenericUDF {
       String fs = "";
       for(int i = 0; i < row[6].length(); i++){
         temp = temp + row[6].charAt(i);
-        fs = fs + Long.parseLong(String.valueOf(row[6].charAt(i)));
+        if(String.valueOf(row[6].charAt(i)).equals("")){
+          temp = temp + "@";
+        }
+        //fs = fs + Long.parseLong(String.valueOf(row[6].charAt(i)));
       }
       throw new HiveException(":" + row[6] + ":" + temp + ":" + fs);
     }
