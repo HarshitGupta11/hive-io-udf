@@ -104,7 +104,7 @@ public class ChecksumValidation extends GenericUDF {
   public boolean checkDataCrc(){
     crc.reset();
     crc.update(row[4].getBytes(StandardCharsets.UTF_8));
-    return crc.getValue() == Long.parseLong(row[3]);
+    return crc.getValue() != Long.parseLong(row[3]);
   }
 
   public boolean checkRowCheckSum() throws HiveException {
