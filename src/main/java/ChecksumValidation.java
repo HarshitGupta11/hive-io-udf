@@ -54,28 +54,27 @@ public class ChecksumValidation extends GenericUDF {
       }
     }
 
-    String res = "0";
-
+    int res = 0;
     if(!checkRowStart()){
-      res = res + "1";
+      res ++;
     }
     if(!checkDataCrc()){
-      res = res + "2";
+      res ++;
     }
 //    if(!checkRowCheckSum()){
 //      res = res + "3";
 //    }
     if(!checkRowEnd()){
-      res = res + "4";
+      res ++;
     }
     if(!checkRowEnd()){
-      res = res + "5";
+      res ++;
     }
     if(!checkRowID()){
-      res = res + "6";
+      res ++;
     }
 
-    return new IntWritable(Integer.parseInt(res));
+    return new IntWritable(res);
   }
 
   public boolean checkRowID(){
